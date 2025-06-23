@@ -1,7 +1,13 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import theme from "../core/theme";
 
-export default function FormField({ label, placeHolder, input, setInput }) {
+export default function FormField({
+    label,
+    placeHolder,
+    input,
+    setInput,
+    ...rest
+}) {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
@@ -10,6 +16,8 @@ export default function FormField({ label, placeHolder, input, setInput }) {
                 style={styles.textInput}
                 onChangeText={setInput}
                 value={input}
+                autoCapitalize="none"
+                {...rest}
             />
         </View>
     );

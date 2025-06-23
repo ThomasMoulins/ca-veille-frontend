@@ -14,6 +14,7 @@ export default function FormFieldWithIcon({
     placeHolder,
     input,
     setInput,
+    ...rest
 }) {
     const [secureTextEntry, setSecureTextEntry] = useState(true);
 
@@ -31,6 +32,8 @@ export default function FormFieldWithIcon({
                     secureTextEntry={secureTextEntry}
                     onChangeText={setInput}
                     value={input}
+                    autoCapitalize="none"
+                    {...rest}
                 />
                 <TouchableOpacity onPress={toggleSecureTextEntry}>
                     <FontAwesome5

@@ -14,7 +14,7 @@ import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
 import DefaultButton from "../components/DefaultButton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../reducers/user";
 
@@ -24,6 +24,8 @@ export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
+
+    const passwordRef = useRef(null);
 
     useEffect(() => {
         setErrorMessage(null);
@@ -115,12 +117,20 @@ export default function LoginScreen({ navigation }) {
                             placeHolder={"johndoe@gmail.com"}
                             setInput={setEmail}
                             input={email}
+                            keyboardType="email-address"
+                            blurOnSubmit={false}
+                            returnKeyType="next"
+                            onSubmitEditing={() => passwordRef.current?.focus()}
                         />
                         <FormFieldWithIcon
+                            ref={passwordRef}
                             label={"Mot de passe"}
                             placeHolder={"Entrez votre mot de passe..."}
                             setInput={setPassword}
                             input={password}
+                            autoCorrect={false}
+                            returnKeyType="done"
+                            onSubmitEditing={handleForm}
                         />
 
                         {errorMessage && (

@@ -14,7 +14,7 @@ import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
 import DefaultButton from "../components/DefaultButton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../reducers/user";
 
@@ -26,6 +26,10 @@ export default function RegisterScreen({ navigation }) {
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
+    const confirmPasswordRef = useRef(null);
 
     useEffect(() => {
         setErrorMessage(null);
@@ -120,24 +124,43 @@ export default function RegisterScreen({ navigation }) {
                             placeHolder={"Entrez votre pseudo"}
                             setInput={setUsername}
                             input={username}
+                            blurOnSubmit={false}
+                            returnKeyType="next"
+                            onSubmitEditing={() => emailRef.current?.focus()}
                         />
                         <FormField
+                            ref={emailRef}
                             label={"E-mail"}
                             placeHolder={"johndoe@gmail.com"}
                             setInput={setEmail}
                             input={email}
+                            keyboardType="email-address"
+                            blurOnSubmit={false}
+                            returnKeyType="next"
+                            onSubmitEditing={() => passwordRef.current?.focus()}
                         />
                         <FormFieldWithIcon
+                            ref={passwordRef}
                             label={"Mot de passe"}
                             placeHolder={"Entrez votre mot de passe..."}
                             setInput={setPassword}
                             input={password}
+                            autoCorrect={false}
+                            blurOnSubmit={false}
+                            returnKeyType="next"
+                            onSubmitEditing={() =>
+                                confirmPasswordRef.current?.focus()
+                            }
                         />
                         <FormFieldWithIcon
+                            ref={confirmPasswordRef}
                             label={"Confirmer le mot de passe"}
                             placeHolder={"Confirmez votre mot de passe..."}
                             setInput={setConfirmPassword}
                             input={confirmPassword}
+                            autoCorrect={false}
+                            returnKeyType="done"
+                            onSubmitEditing={handleForm}
                         />
 
                         {errorMessage && (
