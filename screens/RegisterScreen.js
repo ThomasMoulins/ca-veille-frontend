@@ -4,6 +4,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
+    SafeAreaView,
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
     Platform,
@@ -12,6 +13,7 @@ import {
 import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
+import DefaultButton from "../components/DefaultButton";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../reducers/user";
@@ -82,7 +84,6 @@ export default function RegisterScreen({ navigation }) {
             });
         }
     };
-
     // TODO : Connect with Google
     const handleConnectWithGoogle = () => {};
 
@@ -92,75 +93,82 @@ export default function RegisterScreen({ navigation }) {
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("TabNavigator")}
-                    >
+        <SafeAreaView style={styles.container}>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
+                <TouchableWithoutFeedback
+                    onPress={Keyboard.dismiss}
+                    accessible={false}
+                >
+                    <View style={styles.inner}>
                         <Image
                             style={{ width: 320, height: 90 }}
                             resizeMode="contain"
                             source={require("../assets/images/logo_light_mode.png")}
                         />
-                    </TouchableOpacity>
 
-                    <Text style={styles.heading}>
-                        Ne cherchez plus, veillez.
-                    </Text>
-
-                    <FormField
-                        label={"Nom d'utilisateur"}
-                        placeHolder={"Entrez votre pseudo"}
-                        setInput={setUsername}
-                        input={username}
-                    />
-                    <FormField
-                        label={"E-mail"}
-                        placeHolder={"johndoe@gmail.com"}
-                        setInput={setEmail}
-                        input={email}
-                    />
-                    <FormFieldWithIcon
-                        label={"Mot de passe"}
-                        placeHolder={"Entrez votre mot de passe..."}
-                        setInput={setPassword}
-                        input={password}
-                    />
-                    <FormFieldWithIcon
-                        label={"Confirmer le mot de passe"}
-                        placeHolder={"Confirmez votre mot de passe..."}
-                        setInput={setConfirmPassword}
-                        input={confirmPassword}
-                    />
-
-                    {errorMessage && (
-                        <Text style={styles.danger}>{errorMessage}</Text>
-                    )}
-
-                    <TouchableOpacity onPress={handleForm}>
-                        <Text style={styles.btn}>S'inscrire</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleLoginBtn}>
-                        <Text style={styles.link}>
-                            Retour à la page de connexion
+                        <Text style={styles.heading}>
+                            Ne cherchez plus, veillez.
                         </Text>
-                    </TouchableOpacity>
-                </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+
+                        <FormField
+                            label={"Nom d'utilisateur"}
+                            placeHolder={"Entrez votre pseudo"}
+                            setInput={setUsername}
+                            input={username}
+                        />
+                        <FormField
+                            label={"E-mail"}
+                            placeHolder={"johndoe@gmail.com"}
+                            setInput={setEmail}
+                            input={email}
+                        />
+                        <FormFieldWithIcon
+                            label={"Mot de passe"}
+                            placeHolder={"Entrez votre mot de passe..."}
+                            setInput={setPassword}
+                            input={password}
+                        />
+                        <FormFieldWithIcon
+                            label={"Confirmer le mot de passe"}
+                            placeHolder={"Confirmez votre mot de passe..."}
+                            setInput={setConfirmPassword}
+                            input={confirmPassword}
+                        />
+
+                        {errorMessage && (
+                            <Text style={styles.danger}>{errorMessage}</Text>
+                        )}
+
+                        <DefaultButton
+                            handlePress={handleForm}
+                            text="S'inscrire"
+                            align="center"
+                        />
+
+                        <TouchableOpacity onPress={handleLoginBtn}>
+                            <Text style={styles.link}>
+                                Retour à la page de connexion
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
         backgroundColor: theme.colors.bg_White,
+    },
+    inner: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
     heading: {
         fontSize: theme.fontSizes.header,
@@ -170,25 +178,13 @@ const styles = StyleSheet.create({
         marginTop: 25,
         marginBottom: 60,
     },
-    form: {},
-    btn: {
-        color: theme.colors.bg_White,
-        backgroundColor: theme.colors.blue,
-        padding: 15,
-        borderRadius: 30,
-        width: 180,
-        textAlign: "center",
-        marginTop: 45,
-        marginBottom: 80,
-        fontFamily: theme.fonts.openSansSemiBold,
-    },
     link: {
+        padding: 20,
         fontSize: theme.fontSizes.medium,
         fontWeight: theme.fonts.openSansSemiBold,
     },
     danger: {
-        marginTop: 20,
-        textAlign: "center",
-        color: "red",
+        marginBottom: 10,
+        color: theme.colors.red,
     },
 });
