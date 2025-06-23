@@ -72,5 +72,6 @@ const styles = StyleSheet.create({
         color: theme.colors.text_dark,
         fontSize: theme.fontSizes.medium,
         width: 230,
+        padding: 0,
     },
 });
