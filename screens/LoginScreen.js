@@ -4,14 +4,16 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
+    SafeAreaView,
     KeyboardAvoidingView,
-    TouchableNativeFeedback,
+    TouchableWithoutFeedback,
     Platform,
     Keyboard,
 } from "react-native";
 import theme from "../core/theme";
 import FormField from "../components/FormField";
 import FormFieldWithIcon from "../components/FormFieldWithIcon";
+import DefaultButton from "../components/DefaultButton";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../reducers/user";
@@ -76,68 +78,83 @@ export default function LoginScreen({ navigation }) {
     const handleConnectBtn = () => {};
 
     const handleSubscribeBtn = () => {
+        setEmail(null);
+        setPassword(null);
+        setErrorMessage(null);
         navigation.navigate("Register");
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-            <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
-                    <Image
-                        style={{ width: 320, height: 90 }}
-                        resizeMode="contain"
-                        source={require("../assets/images/logo_light_mode.png")}
-                    />
-                    <Text style={styles.heading}>
-                        Ne cherchez plus, veillez.
-                    </Text>
-                    <View style={styles.googleConnectionContainer}>
+        <SafeAreaView style={styles.container}>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
+                <TouchableWithoutFeedback
+                    onPress={Keyboard.dismiss}
+                    accessible={false}
+                >
+                    <View style={styles.inner}>
                         <Image
-                            source={require("../assets/logo_google.png")}
-                            style={{ width: 25, height: 45 }}
+                            style={{ width: 320, height: 90 }}
+                            resizeMode="contain"
+                            source={require("../assets/images/logo_light_mode.png")}
                         />
-                        <Text>Se Connecter avec Google</Text>
+                        <Text style={styles.heading}>
+                            Ne cherchez plus, veillez.
+                        </Text>
+                        <View style={styles.googleConnectionContainer}>
+                            <Image
+                                source={require("../assets/logo_google.png")}
+                                style={{ width: 25, height: 45 }}
+                            />
+                            <Text>Se Connecter avec Google</Text>
+                        </View>
+                        <FormField
+                            label={"E-mail"}
+                            placeHolder={"johndoe@gmail.com"}
+                            setInput={setEmail}
+                            input={email}
+                        />
+                        <FormFieldWithIcon
+                            label={"Mot de passe"}
+                            placeHolder={"Entrez votre mot de passe..."}
+                            setInput={setPassword}
+                            input={password}
+                        />
+
+                        {errorMessage && (
+                            <Text style={styles.danger}>{errorMessage}</Text>
+                        )}
+
+                        <DefaultButton
+                            handlePress={handleForm}
+                            text="Connexion"
+                            align="center"
+                        />
+
+                        <TouchableOpacity onPress={handleSubscribeBtn}>
+                            <Text style={styles.link}>S'inscrire</Text>
+                        </TouchableOpacity>
                     </View>
-                    <FormField
-                        label={"E-mail"}
-                        placeHolder={"johndoe@gmail.com"}
-                        setInput={setEmail}
-                        input={email}
-                    />
-                    <FormFieldWithIcon
-                        label={"Mot de passe"}
-                        placeHolder={"Entrez votre mot de passe..."}
-                        setInput={setPassword}
-                        input={password}
-                    />
-                    {errorMessage && (
-                        <Text style={styles.danger}>{errorMessage}</Text>
-                    )}
-                    <TouchableOpacity onPress={handleForm}>
-                        <Text style={styles.btn}>Connexion</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleSubscribeBtn}>
-                        <Text style={styles.link}>S'inscrire</Text>
-                    </TouchableOpacity>
-                </View>
-            </TouchableNativeFeedback>
-        </KeyboardAvoidingView>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
+        backgroundColor: theme.colors.bg_White,
+    },
+    inner: {
+        flex: 1,
         justifyContent: "center",
-        backgroundColor: "#fff",
+        alignItems: "center",
     },
     heading: {
         fontSize: theme.fontSizes.header,
-        textAlign: "center",
         color: theme.colors.text_gray,
         fontFamily: theme.fonts.comfortaaBold,
         marginTop: 25,
@@ -155,24 +172,13 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         gap: 20,
     },
-    btn: {
-        color: theme.colors.bg_White,
-        backgroundColor: theme.colors.blue,
-        padding: 15,
-        borderRadius: 30,
-        width: 180,
-        textAlign: "center",
-        marginTop: 45,
-        marginBottom: 80,
-        fontFamily: theme.fonts.openSansSemiBold,
-    },
     link: {
+        padding: 20,
         fontSize: theme.fontSizes.medium,
         fontWeight: theme.fonts.openSansSemiBold,
     },
     danger: {
-        marginTop: 20,
-        textAlign: "center",
-        color: "red",
+        marginBottom: 10,
+        color: theme.colors.red,
     },
 });

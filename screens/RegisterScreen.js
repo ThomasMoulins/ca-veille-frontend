@@ -84,11 +84,13 @@ export default function RegisterScreen({ navigation }) {
             });
         }
     };
-    // TODO : Connect with Google
-    const handleConnectWithGoogle = () => {};
 
     const handleLoginBtn = () => {
-        //j'ai changé handleRegisterBtn par ce nom
+        setUsername(null);
+        setEmail(null);
+        setPassword(null);
+        setConfirmPassword(null);
+        setErrorMessage(null);
         navigation.navigate("Login");
     };
 
@@ -172,7 +174,6 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontSize: theme.fontSizes.header,
-        textAlign: "center",
         color: theme.colors.text_gray,
         fontFamily: theme.fonts.comfortaaBold,
         marginTop: 25,
