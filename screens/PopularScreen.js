@@ -1,10 +1,10 @@
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet } from "react-native";
 import theme from "../core/theme";
 import Header from "../components/Header";
 import Sections from "../components/Sections";
 import { useState, useEffect } from "react";
 import { getPopulars } from "../constants/Urls";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function PopularScreen() {
@@ -20,8 +20,8 @@ export default function PopularScreen() {
         <View style={styles.container}>
             <Header
                 title={"Populaire"}
-                inputValue={searchValue}
-                setInput={setSearchValue}
+                inputSearch={searchValue}
+                setInputSearch={setSearchValue}
             />
             <Sections data={data} searchText={searchValue} screen={"popular"} />
         </View>

@@ -1,5 +1,4 @@
 import { View, StyleSheet } from "react-native";
-
 import theme from "../core/theme";
 import Header from "../components/Header";
 import Sections from "../components/Sections";
@@ -23,8 +22,8 @@ export default function CategoriesScreen() {
         <View style={styles.container}>
             <Header
                 title={"Mes catégories"}
-                inputValue={searchValue}
-                setInput={setSearchValue}
+                inputSearch={searchValue}
+                setInputSearch={setSearchValue}
             />
             <Sections
                 data={data}

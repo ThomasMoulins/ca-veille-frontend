@@ -8,14 +8,12 @@ import {
     ScrollView,
 } from "react-native";
 import theme from "../core/theme";
-import Header3 from "../components/Header3";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import Header from "../components/Header";
+import { useRoute } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import truncate from "../utils/truncate";
 
 export default function ArticleScreen() {
-    //Attention : nouvelle méthode react native : Linking (voir doc)
-    const navigation = useNavigation();
     const route = useRoute();
     // articlesId is the id of the all the articles of the category sort by date
     const {
@@ -29,18 +27,13 @@ export default function ArticleScreen() {
         date,
         url,
         author,
-        isFavorite,
     } = route.params;
     // const isFavorite = value.isFavorite || false;
 
     const truncatedCategoryName = truncate(sectionName, 40);
     return (
         <View style={styles.container}>
-            <Header3
-                onBack={() => navigation.goBack()}
-                isFavorite={isFavorite}
-                articleId={articleId}
-            />
+            <Header articleId={articleId} />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,

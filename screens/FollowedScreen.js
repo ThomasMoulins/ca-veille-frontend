@@ -20,8 +20,8 @@ export default function FollowedScreen() {
         <View style={styles.container}>
             <Header
                 title={"Mes abonnements"}
-                inputValue={searchValue}
-                setInput={setSearchValue}
+                inputSearch={searchValue}
+                setInputSearch={setSearchValue}
             />
             <Sections
                 data={data}

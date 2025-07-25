@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import theme from "../core/theme";
-import Header2 from "../components/Header2";
+import Header from "../components/Header";
 import { useRoute } from "@react-navigation/native";
 import ArticleCard from "../components/ArticleCard";
 import { useSelector } from "react-redux";
 
-export default function OnePopularScreen({ navigation }) {
+export default function OnePopularScreen() {
     const user = useSelector((state) => state.user.value);
     const route = useRoute();
     const { userId, username, articles } = route.params;
@@ -36,14 +36,11 @@ export default function OnePopularScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Header2
+            <Header
                 title={username}
-                colorText={theme.colors.text_dark}
-                onBack={() => navigation.goBack()}
-                searchValue={searchValue}
-                onChangeSearch={setSearchValue}
-                routeName={route.name}
-                followedUsername={username} //je garde ce nom car même props pour oneFollowScreen
+                inputSearch={searchValue}
+                setInputSearch={setSearchValue}
+                haveNavigationBackArrow={true}
                 followedUserId={userId}
             />
 

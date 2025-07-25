@@ -9,7 +9,6 @@ import { useIsFocused } from "@react-navigation/native";
 
 export default function HomeScreen() {
     const user = useSelector((state) => state.user.value);
-
     const [searchValue, setSearchValue] = useState("");
     const [data, setData] = useState([]);
     const isFocused = useIsFocused();
@@ -47,7 +46,7 @@ export default function HomeScreen() {
     );
     return (
         <View style={styles.container}>
-            <Header inputValue={searchValue} setInput={setSearchValue} />
+            <Header inputSearch={searchValue} setInputSearch={setSearchValue} />
             <View
                 style={{
                     backgroundColor: theme.colors.bg_gray,

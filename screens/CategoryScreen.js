@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import theme from "../core/theme";
-import Header2 from "../components/Header2";
+import Header from "../components/Header";
 import { useRoute } from "@react-navigation/native";
 import ArticleCard from "../components/ArticleCard";
 import { useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import { getCategories } from "../constants/Urls";
 
-export default function CategoryScreen({ navigation }) {
+export default function CategoryScreen() {
     const route = useRoute();
     const user = useSelector((state) => state.user.value);
     const isFocused = useIsFocused();
@@ -60,17 +60,13 @@ export default function CategoryScreen({ navigation }) {
     return (
         // <SafeAreaView style={styles.container} edges={["top"]}>
         <View style={styles.container}>
-            <Header2
-                // voir commment gérer la modification via les 3 points de la catégorie avec categoryId, title et color
-                colorText={catColor}
-                onBack={() => navigation.goBack()}
-                searchValue={searchValue}
-                onChangeSearch={setSearchValue}
+            <Header
                 title={catName}
-                routeName={route.name}
+                colorText={catColor}
+                inputSearch={searchValue}
+                setInputSearch={setSearchValue}
+                haveNavigationBackArrow={true}
                 categoryId={categoryId}
-                categoryColor={catColor}
-                token={user.token}
             />
             <View
                 style={{

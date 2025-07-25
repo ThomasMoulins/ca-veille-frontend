@@ -39,8 +39,8 @@ export default function FavorisScreen() {
         <View style={styles.container}>
             <Header
                 title={"Mes articles favoris"}
-                inputValue={searchValue}
-                setInput={setSearchValue}
+                inputSearch={searchValue}
+                setInputSearch={setSearchValue}
             />
             <View
                 style={{

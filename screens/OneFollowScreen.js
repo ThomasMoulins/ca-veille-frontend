@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import theme from "../core/theme";
-import Header2 from "../components/Header2";
+import Header from "../components/Header";
 import { useRoute } from "@react-navigation/native";
 import ArticleCard from "../components/ArticleCard";
 import { useSelector } from "react-redux";
 
-export default function OneFollowScreen({ navigation }) {
+export default function OneFollowScreen() {
     const route = useRoute();
     const user = useSelector((state) => state.user.value);
     const { userId, username, articles } = route.params;
@@ -32,16 +32,12 @@ export default function OneFollowScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Header2
+            <Header
                 title={username}
-                colorText={theme.colors.text_dark}
-                onBack={() => navigation.goBack()}
-                searchValue={searchValue}
-                onChangeSearch={setSearchValue}
-                routeName={route.name}
-                followedUsername={username}
+                inputSearch={searchValue}
+                setInputSearch={setSearchValue}
+                haveNavigationBackArrow={true}
                 followedUserId={userId}
-                token={user.token}
             />
 
             <View style={{ backgroundColor: theme.colors.bg_gray, flex: 1 }}>
