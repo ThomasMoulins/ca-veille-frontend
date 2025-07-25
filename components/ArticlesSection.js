@@ -61,26 +61,22 @@ export default function ArticlesSection({
         </TouchableOpacity>
     );
 
-    const renderSectionTitle = () => (
-        <TouchableOpacity onPress={() => handleCategoryPress()}>
-            <Text
-                style={{
-                    ...styles.sectionTitle,
-                    color: categoryObj.color || theme.colors.dark,
-                }}
-            >
-                {truncate(categoryObj.name, 29) + " ›"}
-            </Text>
-        </TouchableOpacity>
-    );
-
     return (
         <View
             style={{
                 backgroundColor: theme.colors.bg_gray,
             }}
         >
-            {renderSectionTitle()}
+            <TouchableOpacity onPress={() => handleCategoryPress()}>
+                <Text
+                    style={{
+                        ...styles.sectionTitle,
+                        color: categoryObj.color || theme.colors.dark,
+                    }}
+                >
+                    {truncate(categoryObj.name, 29) + " ›"}
+                </Text>
+            </TouchableOpacity>
             <FlatList
                 data={categoryObj.articles}
                 renderItem={renderCardItem}
