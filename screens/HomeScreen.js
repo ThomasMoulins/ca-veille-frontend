@@ -15,9 +15,11 @@ export default function HomeScreen() {
 
     useEffect(() => {
         isFocused &&
-            getHomeCategories(user.followedUsers).then((res) =>
-                setData(res.articles)
-            );
+            getHomeCategories(user.followedUsers)
+                .then((res) => setData(res.articles))
+                .catch(() => {
+                    setData([]);
+                });
     }, [isFocused]);
 
     const filteredArticles = data?.filter(

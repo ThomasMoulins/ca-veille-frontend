@@ -15,9 +15,11 @@ export default function CategoriesScreen() {
 
     useEffect(() => {
         isFocused &&
-            getCategories(userCategories).then((res) =>
-                setData(res.categoriesList)
-            );
+            getCategories(userCategories)
+                .then((res) => setData(res.categoriesList))
+                .catch(() => {
+                    setData([]);
+                });
     }, [isFocused]);
 
     return (
