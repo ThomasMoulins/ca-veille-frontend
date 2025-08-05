@@ -64,8 +64,7 @@ export default function FavorisScreen() {
                         <Text
                             style={{
                                 textAlign: "center",
-                                marginTop: 50,
-                                color: theme.colors.text_dark,
+                                marginTop: 38,
                             }}
                         >
                             Aucun article trouvé.

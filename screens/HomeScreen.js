@@ -57,21 +57,21 @@ export default function HomeScreen() {
                     height: "100%",
                 }}
             >
-                {filteredArticles?.length === 0 ? (
-                    <Text style={{ textAlign: "center", marginTop: 50 }}>
-                        Aucun article !
-                    </Text>
-                ) : (
-                    <FlatList
-                        data={filteredArticles}
-                        renderItem={renderVeilleItem}
-                        keyExtractor={(item) => item._id}
-                        contentContainerStyle={{
-                            paddingHorizontal: 16,
-                            paddingVertical: 12,
-                        }}
-                    />
-                )}
+                <FlatList
+                    data={filteredArticles}
+                    renderItem={renderVeilleItem}
+                    keyExtractor={(item) => item._id}
+                    contentContainerStyle={{
+                        paddingHorizontal: 16,
+                        paddingTop: 12,
+                        paddingBottom: 120,
+                    }}
+                    ListEmptyComponent={
+                        <Text style={{ textAlign: "center", marginTop: 38 }}>
+                            Aucun article trouvé.
+                        </Text>
+                    }
+                />
             </View>
         </View>
     );
