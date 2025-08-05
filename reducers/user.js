@@ -8,6 +8,7 @@ const initialState = {
         followedUsers: [],
         followers: 0,
         isPublic: false,
+        isAuthenticated: false,
     },
 };
 
@@ -18,16 +19,17 @@ export const userSlice = createSlice({
         setUser: (state, action) => {
             state.value = {
                 ...action.payload,
+                isAuthenticated: true,
             };
         },
         logout: (state, action) => {
             state.value.username = null;
-            state.value.token = null;
             state.value.categories = [];
             state.value.favoriteArticles = [];
             state.value.followedUsers = [];
             state.value.followers = 0;
             state.value.isPublic = false;
+            state.value.isAuthenticated = false;
         },
         toggleFavorite: (state, action) => {
             if (
