@@ -16,7 +16,8 @@ import FormFieldWithIcon from "../components/FormFieldWithIcon";
 import DefaultButton from "../components/DefaultButton";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addUser } from "../reducers/user";
+import { setUser } from "../reducers/user";
+import { setAccessToken, saveRefreshToken } from "../utils/auth";
 
 export default function LoginScreen({ navigation }) {
     const dispatch = useDispatch();
@@ -60,9 +61,8 @@ export default function LoginScreen({ navigation }) {
         const user = response.user;
 
         dispatch(
-            addUser({
+            setUser({
                 username: user.username,
-                token: user.token,
                 categories: user.categories,
                 favoriteArticles: user.favoriteArticles,
                 followedUsers: user.followedUsers,
@@ -70,10 +70,9 @@ export default function LoginScreen({ navigation }) {
                 isPublic: user.isPublic,
             })
         );
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "TabNavigator" }],
-        });
+
+        setAccessToken(response.accessToken);
+        await saveRefreshToken(response.refreshToken);
     };
 
     // TODO : Connect with Google

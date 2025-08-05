@@ -6,7 +6,7 @@ import {
     TextInput,
 } from "react-native";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ColorPicker from "react-native-wheel-color-picker";
 import { getContrastingTextColor } from "../utils/InverseColorUtils";
@@ -19,13 +19,12 @@ export default function AddCategoryScreen() {
     const [inputCategory, setInputCategory] = useState("");
     const [inputColor, setInputColor] = useState(theme.colors.blue);
     const [textError, setTextError] = useState("");
-    const token = useSelector((state) => state.user.value.token);
     const dispatch = useDispatch();
 
     const handleAddCategory = async () => {
         const trimmed = inputCategory.trim();
         if (!trimmed) return setTextError("Rentrer un nom à la catégorie");
-        const data = await createCategory(trimmed, inputColor, token);
+        const data = await createCategory(trimmed, inputColor);
 
         if (data.result) {
             setTextError("");

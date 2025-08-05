@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome6 } from "@expo/vector-icons";
 import NavigationBackArrow from "../components/NavigationBackArrow";
@@ -23,7 +22,6 @@ import DefaultButton from "../components/DefaultButton";
 
 export default function ManageCategoryFeed() {
     const route = useRoute();
-    const user = useSelector((state) => state.user.value);
     const { name, color, id } = route.params;
     const isFocused = useIsFocused();
     const [textInfo, setTextInfo] = useState({ text: "", color: "#fff" });
@@ -31,14 +29,11 @@ export default function ManageCategoryFeed() {
     const [inputUrl, setInputUrl] = useState("");
 
     useEffect(() => {
-        isFocused &&
-            getFeedsByCategory(id, user.token).then((data) =>
-                setData(data.feeds)
-            );
+        isFocused && getFeedsByCategory(id).then((data) => setData(data.feeds));
     }, [isFocused, textInfo]);
 
     const handleAddFeed = async () => {
-        const data = await createFeed(inputUrl, id, user.token);
+        const data = await createFeed(inputUrl, id);
 
         if (!data.result || data.status === 500) {
             setTextInfo({
@@ -59,7 +54,7 @@ export default function ManageCategoryFeed() {
     };
 
     const handleDeleteFeed = async (feedId) => {
-        const result = await deleteFeedFromCategory(id, feedId, user.token);
+        const result = await deleteFeedFromCategory(id, feedId);
         if (result.result) {
             const filteredData = data.filter((item) => item._id !== feedId);
             setData(filteredData);

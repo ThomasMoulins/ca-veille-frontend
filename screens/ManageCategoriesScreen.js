@@ -28,10 +28,10 @@ export default function ManageCategoriesScreen() {
     const [nameCliked, setNameClicked] = useState("");
     const [colorCliked, setColorCliked] = useState("");
     const [idClicked, setIdClicked] = useState("");
-    const user = useSelector((state) => state.user.value);
+    const userCategories = useSelector((state) => state.user.value.categories);
     const dispatch = useDispatch();
     useEffect(() => {
-        getCategories(user).then((res) =>
+        getCategories(userCategories).then((res) =>
             setData(
                 res.categoriesList.map((item) => {
                     return {
@@ -42,7 +42,7 @@ export default function ManageCategoriesScreen() {
                 })
             )
         );
-    }, []);
+    }, [userCategories]);
 
     const handleCategoriesUpdate = async (itemColor, itemName, itemId) => {
         let valid = false;
@@ -52,8 +52,7 @@ export default function ManageCategoriesScreen() {
                     const res = await updateCategory(
                         itemName,
                         itemColor,
-                        itemId,
-                        user.token
+                        itemId
                     );
                     valid = res.result;
                     return {
@@ -84,7 +83,7 @@ export default function ManageCategoriesScreen() {
                     text: "Supprimer",
                     style: "destructive",
                     onPress: async () => {
-                        const res = await deleteCategory(id, user.token);
+                        const res = await deleteCategory(id);
                         if (res.result) {
                             dispatch(deletCategory(id));
                             setData((OldValue) =>
@@ -190,7 +189,6 @@ export default function ManageCategoriesScreen() {
                 modalVisible={isModalVisible}
                 onValidation={handleCategoriesUpdate}
                 onClose={() => setIsModalVisible(false)}
-                token={user.token}
             />
 
             <FlatList

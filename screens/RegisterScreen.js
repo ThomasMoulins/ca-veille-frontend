@@ -16,7 +16,8 @@ import FormFieldWithIcon from "../components/FormFieldWithIcon";
 import DefaultButton from "../components/DefaultButton";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addUser } from "../reducers/user";
+import { setUser } from "../reducers/user";
+import { saveRefreshToken, setAccessToken } from "../utils/auth";
 
 export default function RegisterScreen({ navigation }) {
     const dispatch = useDispatch();
@@ -69,23 +70,20 @@ export default function RegisterScreen({ navigation }) {
             }
 
             const response = await postData.json();
-            const user = response.user;
 
             dispatch(
-                addUser({
-                    username: user.username,
-                    token: user.token,
-                    categories: user.categories,
-                    favoriteArticles: user.favoriteArticles,
-                    followedUsers: user.followedUsers,
-                    followers: user.followers,
-                    isPublic: user.isPublic,
+                setUser({
+                    username: response.username,
+                    categories: [],
+                    favoriteArticles: [],
+                    followedUsers: [],
+                    followers: 0,
+                    isPublic: false,
                 })
             );
-            navigation.reset({
-                index: 0,
-                routes: [{ name: "AreaOfInterest" }],
-            });
+
+            setAccessToken(response.accessToken);
+            await saveRefreshToken(response.refreshToken);
         }
     };
 

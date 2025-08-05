@@ -11,7 +11,7 @@ import {
 import { useSelector } from "react-redux";
 
 export default function ManageFeedsScreen() {
-    const user = useSelector((state) => state.user.value);
+    const categories = useSelector((state) => state.user.value.categories);
     const [feeds, setFeeds] = useState([]);
     const [selectedFeed, setSelectedFeed] = useState({
         id: null,
@@ -23,7 +23,7 @@ export default function ManageFeedsScreen() {
     useEffect(() => {
         const getAllFeeds = async () => {
             let tempFeedsList = [];
-            const res = await getAllFeedsWithCategories(user.token);
+            const res = await getAllFeedsWithCategories();
             if (res.result) {
                 for (let category of res.categories) {
                     for (let feed of category.feeds) {
@@ -45,8 +45,7 @@ export default function ManageFeedsScreen() {
     const handleDelete = async () => {
         const res = await deleteFeedFromCategory(
             selectedFeed.catId,
-            selectedFeed.id,
-            user.token
+            selectedFeed.id
         );
 
         if (res.result) {
@@ -81,7 +80,7 @@ export default function ManageFeedsScreen() {
                             key={i}
                             style={[
                                 styles.catItem,
-                                i === user.categories.length - 1 && {
+                                i === categories.length - 1 && {
                                     borderBottomWidth: 0,
                                 },
                                 selectedFeed.id === feed.id &&

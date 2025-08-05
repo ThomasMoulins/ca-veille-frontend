@@ -18,7 +18,6 @@ export default function ModalModifycategory({
     sectionId,
     modalVisible,
     onClose,
-
     onValidation,
 }) {
     const [inputCategory, setInputCategory] = useState("");

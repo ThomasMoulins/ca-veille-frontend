@@ -20,7 +20,7 @@ export default function CategoryScreen() {
 
     useEffect(() => {
         isFocused &&
-            getCategories(user).then((res) => {
+            getCategories(user.categories).then((res) => {
                 const resultArticles = res.categoriesList.filter(
                     (item) => item._id === categoryId
                 );

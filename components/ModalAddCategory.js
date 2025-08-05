@@ -14,12 +14,7 @@ import { createCategory } from "../constants/Urls";
 import { useDispatch } from "react-redux";
 import { addCategory } from "../reducers/user";
 
-export default function ModalAddCategory({
-    modalVisible,
-    onClose,
-    onCreate,
-    token,
-}) {
+export default function ModalAddCategory({ modalVisible, onClose, onCreate }) {
     const [inputCategory, setInputCategory] = useState("");
     const [inputColor, setInputColor] = useState(theme.colors.blue);
     const [textError, setTextError] = useState("");
@@ -35,7 +30,7 @@ export default function ModalAddCategory({
     const handleAddCategory = async () => {
         const trimmed = inputCategory.trim();
         if (!trimmed) return setTextError("Rentrer un nom à la catégorie");
-        const data = await createCategory(trimmed, inputColor, token);
+        const data = await createCategory(trimmed, inputColor);
 
         if (data.result) {
             onCreate({

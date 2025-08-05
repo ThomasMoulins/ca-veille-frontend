@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome6 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCategories } from "../reducers/user";
 import { createDefaultCategories } from "../constants/Urls";
 import { categoriesImage } from "../constants/categoriesImage";
@@ -31,12 +31,11 @@ const defaultCategories = [
 
 export default function AreaOfInterest({ navigation }) {
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.user.value.token);
     const [selected, setSelected] = useState([]);
 
     const handlepress = async () => {
         if (selected) {
-            const data = await createDefaultCategories(selected, token);
+            const data = await createDefaultCategories(selected);
             if (data.result) {
                 dispatch(setCategories(data.categoriesID));
                 navigation.reset({

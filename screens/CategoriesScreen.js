@@ -8,14 +8,16 @@ import { getCategories } from "../constants/Urls";
 import { useIsFocused } from "@react-navigation/native";
 
 export default function CategoriesScreen() {
-    const user = useSelector((state) => state.user.value);
+    const userCategories = useSelector((state) => state.user.value.categories);
     const [data, setData] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     const isFocused = useIsFocused();
 
     useEffect(() => {
         isFocused &&
-            getCategories(user).then((res) => setData(res.categoriesList));
+            getCategories(userCategories).then((res) =>
+                setData(res.categoriesList)
+            );
     }, [isFocused]);
 
     return (

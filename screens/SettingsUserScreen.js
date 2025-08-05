@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 import {
     deleteUser,
     getEmail,
-    handleChangeUsername,
+    changeUsername,
     toggleIsPublic,
 } from "../constants/Urls";
 
@@ -33,13 +33,13 @@ export default function SettingsUserScreen() {
     const [email, setEmail] = useState(null);
     const [isPublic, setIsPublic] = useState(user.isPublic);
     const [inputVisible, setInputVisible] = useState(false);
-    const [username, setUsername] = useState(null);
+    const [newUsername, setNewUsername] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchEmail = async () => {
             try {
-                setEmail(await getEmail(user.token));
+                setEmail(await getEmail());
             } catch (error) {
                 console.error(
                     "Erreur lors de la mise à jour de la visibilité :",
@@ -49,15 +49,15 @@ export default function SettingsUserScreen() {
         };
 
         fetchEmail();
-    }, [user.token]);
+    }, []);
 
     useEffect(() => {
         setError(null);
-    }, [username]);
+    }, [newUsername]);
 
     const toggleSwitch = async () => {
         try {
-            setIsPublic(await toggleIsPublic(user.token));
+            setIsPublic(await toggleIsPublic());
             dispatch(toggleIsPublicReducer(!isPublic));
         } catch (error) {
             console.error("Erreur mise à jour visibilité :", error);
@@ -75,12 +75,9 @@ export default function SettingsUserScreen() {
                 },
                 {
                     text: "Se déconnecter",
-                    onPress: () => {
+                    onPress: async () => {
                         dispatch(logout());
-                        navigation.reset({
-                            index: 0,
-                            routes: [{ name: "Login" }],
-                        });
+                        await deleteRefreshToken();
                     },
                     style: "destructive",
                 },
@@ -103,13 +100,10 @@ export default function SettingsUserScreen() {
                 {
                     text: "Supprimer mon compte",
                     onPress: async () => {
-                        const result = await deleteUser(user.token);
+                        const result = await deleteUser();
                         if (result) {
                             dispatch(logout());
-                            navigation.reset({
-                                index: 0,
-                                routes: [{ name: "Register" }],
-                            });
+                            await deleteRefreshToken();
                         }
                     },
                     style: "destructive",
@@ -126,7 +120,7 @@ export default function SettingsUserScreen() {
         setError(null);
     };
     const handleCLick = async () => {
-        const res = await handleChangeUsername(username, user.token);
+        const res = await changeUsername(newUsername);
         if (res.data) {
             dispatch(updateUsername(res.data));
             setUsername(null);

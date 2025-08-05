@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import theme from "../core/theme";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleFavoriteArticle } from "../constants/Urls";
 import { toggleFavorite } from "../reducers/user";
 
@@ -22,7 +22,6 @@ export default function ArticleCard({
     author,
 }) {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.value);
     const navigation = useNavigation();
     //fonction pour tronquer le texte où on veut
     function truncate(text, maxLength) {
@@ -58,7 +57,7 @@ export default function ArticleCard({
     };
 
     const handleFavorite = () => {
-        toggleFavoriteArticle(_id, user.token).then(
+        toggleFavoriteArticle(_id).then(
             (res) => res.result && dispatch(toggleFavorite({ articleId: _id }))
         );
     };

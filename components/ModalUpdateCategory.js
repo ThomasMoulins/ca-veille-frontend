@@ -13,7 +13,6 @@ export default function ModalUpdateCategory({
     categoryId,
     categoryName,
     categoryColor,
-    token,
 }) {
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -32,8 +31,7 @@ export default function ModalUpdateCategory({
                     style: "destructive",
                     onPress: async () => {
                         const response = await handleDeleteUserCategory(
-                            categoryId,
-                            token
+                            categoryId
                         );
                         dispatch(
                             deleteUserCategory(response.foundUser.categories)
@@ -89,7 +87,7 @@ export default function ModalUpdateCategory({
                             ...styles.btnOutline,
                             borderLeftWidth: 0.6,
                         }}
-                        onPress={() => handleDelete(categoryId, token)}
+                        onPress={() => handleDelete(categoryId)}
                     >
                         <Text
                             style={{

@@ -60,7 +60,7 @@ const Header = ({
     };
 
     const handleFavorite = () => {
-        toggleFavoriteArticle(articleId, user.token).then(
+        toggleFavoriteArticle(articleId).then(
             (res) => res.result && dispatch(toggleFavorite({ articleId }))
         );
     };
@@ -77,10 +77,7 @@ const Header = ({
                     text: "Supprimer",
                     style: "destructive",
                     onPress: async () => {
-                        const res = await deleteFollowedUser(
-                            followedUserId,
-                            user.token
-                        );
+                        const res = await deleteFollowedUser(followedUserId);
 
                         if (res.result) {
                             dispatch(unfollowUser({ userId: followedUserId }));
@@ -97,7 +94,7 @@ const Header = ({
     };
 
     const handleFollowPress = async () => {
-        const res = await addFollowedUser(followedUserId, user.token);
+        const res = await addFollowedUser(followedUserId);
 
         if (res.result) {
             dispatch(followUser({ userId: followedUserId }));
@@ -244,7 +241,6 @@ const Header = ({
                         categoryId={categoryId}
                         categoryName={title}
                         categoryColor={colorText}
-                        token={user.token}
                     />
                 </View>
             )}

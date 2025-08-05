@@ -7,13 +7,17 @@ import { getFavoritesArticles } from "../constants/Urls";
 import ArticleCard from "../components/ArticleCard";
 
 export default function FavorisScreen() {
-    const user = useSelector((state) => state.user.value);
+    const favoriteArticles = useSelector(
+        (state) => state.user.value.favoriteArticles
+    );
     const [data, setData] = useState([]);
     const [searchValue, setSearchValue] = useState("");
 
     useEffect(() => {
-        getFavoritesArticles(user).then((res) => setData(res.articles));
-    }, [user]);
+        getFavoritesArticles(favoriteArticles).then((res) =>
+            setData(res.articles)
+        );
+    }, [favoriteArticles]);
     const filteredData = data?.filter(
         (item) =>
             item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -30,7 +34,7 @@ export default function FavorisScreen() {
             date={item.date}
             url={item.url}
             author={item.author}
-            isFavorite={user.favoriteArticles.includes(item._id)}
+            isFavorite={favoriteArticles.includes(item._id)}
             showDate={true}
         />
     );

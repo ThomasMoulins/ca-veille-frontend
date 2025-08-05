@@ -17,9 +17,9 @@ import theme from "../core/theme";
 import DefaultButton from "../components/DefaultButton";
 
 export default function AddFeedScreen() {
-    const user = useSelector((state) => state.user.value);
+    const userCategories = useSelector((state) => state.user.value.categories);
     // récupération des catégories
-    const [categories, setCategories] = useState(user.categories || []);
+    const [categories, setCategories] = useState(userCategories || []);
 
     // inputs
     const [inputUrl, setInputUrl] = useState("");
@@ -34,8 +34,8 @@ export default function AddFeedScreen() {
     useEffect(() => {
         const loadCategories = async () => {
             try {
-                const res = await getCategories(user);
-                const cats = user.categories.map((id, i) => ({
+                const res = await getCategories(userCategories);
+                const cats = userCategories.map((id, i) => ({
                     _id: id,
                     name: res.categoriesList[i].name,
                     color: res.categoriesList[i].color,
@@ -46,14 +46,10 @@ export default function AddFeedScreen() {
             }
         };
         loadCategories();
-    }, [user.token, user.categories]);
+    }, [userCategories]);
 
     const handleAddFeed = async () => {
-        const data = await createFeed(
-            inputUrl,
-            selectedCategory.id,
-            user.token
-        );
+        const data = await createFeed(inputUrl, selectedCategory.id);
 
         if (!data.result || data.status === 500) {
             setTextInfo({
@@ -172,7 +168,6 @@ export default function AddFeedScreen() {
                 modalVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
                 onCreate={handleCreateCategory}
-                token={user.token}
             />
             <Text
                 style={{

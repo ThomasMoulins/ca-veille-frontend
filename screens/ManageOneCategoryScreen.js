@@ -7,7 +7,6 @@ import {
     TextInput,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome6 } from "@expo/vector-icons";
 import NavigationBackArrow from "../components/NavigationBackArrow";
@@ -27,7 +26,6 @@ import DefaultButton from "../components/DefaultButton";
 export default function ManageOneCategoryScreen() {
     const route = useRoute();
     const isFocused = useIsFocused();
-    const user = useSelector((state) => state.user.value);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { categoryId, categoryName, categoryColor } = route.params;
@@ -40,19 +38,12 @@ export default function ManageOneCategoryScreen() {
     //récupère les feeds grace à categoryId récupéreé en param
     useEffect(() => {
         isFocused &&
-            getFeedsByCategory(categoryId, user.token).then((data) =>
-                setData(data.feeds)
-            );
+            getFeedsByCategory(categoryId).then((data) => setData(data.feeds));
     }, [isFocused]);
 
     // modification de la couleur et du nom, inverse data flow de la modal
     const handleCategoriesUpdate = async (itemColor, itemName, itemId) => {
-        const res = await updateCategory(
-            itemName,
-            itemColor,
-            itemId,
-            user.token
-        );
+        const res = await updateCategory(itemName, itemColor, itemId);
         const valid = res.result;
         if (valid) {
             setCatColor(itemColor);
@@ -63,7 +54,7 @@ export default function ManageOneCategoryScreen() {
     // ajout d'un feed via l'input et le bouton en bas de page
     const handleAddFeed = async () => {
         if (inputUrl && categoryId) {
-            const data = await createFeed(inputUrl, categoryId, user.token);
+            const data = await createFeed(inputUrl, categoryId);
             if (data.result) {
                 setInputUrl("");
 
@@ -85,11 +76,7 @@ export default function ManageOneCategoryScreen() {
     };
     // delete un feed au click de  l'icone poubelle
     const handleDeleteFeed = async (feedId) => {
-        const result = await deleteFeedFromCategory(
-            categoryId,
-            feedId,
-            user.token
-        );
+        const result = await deleteFeedFromCategory(categoryId, feedId);
         if (result.result) {
             const filteredData = data.filter((item) => item._id !== feedId);
             setData(filteredData);
@@ -140,7 +127,6 @@ export default function ManageOneCategoryScreen() {
                 modalVisible={isModalVisible}
                 onValidation={handleCategoriesUpdate}
                 onClose={() => setIsModalVisible(false)}
-                token={user.token}
             />
 
             <View style={[styles.itemList, { backgroundColor: catColor }]}>
