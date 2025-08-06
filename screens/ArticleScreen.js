@@ -36,16 +36,15 @@ export default function ArticleScreen() {
     return (
         <View style={styles.container}>
             <Header articleId={articleId} />
-            <View
-                style={{
-                    backgroundColor: theme.colors.bg_gray,
-                    height: "100%",
-                }}
-            >
+            <ScrollView>
+                <View style={{ backgroundColor: theme.colors.bg_gray }}>
                 <View style={styles.card}>
                     <View style={styles.topRow}>
                         <Text
-                            style={[styles.category, { color: categoryColor }]}
+                                style={[
+                                    styles.category,
+                                    { color: categoryColor },
+                                ]}
                         >
                             {truncatedCategoryName}
                         </Text>
@@ -71,10 +70,7 @@ export default function ArticleScreen() {
                             />
                         </TouchableOpacity>
                     </View>
-                    <ScrollView
-                        style={{ maxHeight: "93%" }}
-                        showsVerticalScrollIndicator={true}
-                    >
+
                         {(media || defaultMedia) && (
                             <Image
                                 source={{ uri: media || defaultMedia }}
@@ -84,7 +80,6 @@ export default function ArticleScreen() {
                                 }}
                             />
                         )}
-
                         <Text style={styles.date}>
                             date de l'article :{" "}
                             {new Date(date).toLocaleDateString("fr-FR", {
@@ -97,14 +92,13 @@ export default function ArticleScreen() {
                         </Text>
                         <Text style={styles.articleTitle}>{title}</Text>
                         <Text style={styles.articleDesc}>{description}</Text>
-
                         <Text style={styles.date}>auteur : {author}</Text>
-                    </ScrollView>
                 </View>
                 {/* <TouchableOpacity style={styles.similar}>
                 <Text style={styles.similarText}>Voir des articles similaires</Text>
             </TouchableOpacity>  A voir à la fin si on laisse */}
             </View>
+            </ScrollView>
         </View>
     );
 }
@@ -112,16 +106,14 @@ export default function ArticleScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.colors.bg_White,
     },
     card: {
         backgroundColor: theme.colors.bg_White,
         borderRadius: 18,
         padding: 18,
         marginHorizontal: 10,
-        marginVertical: 25,
-        height: "82%",
-        width: "95%",
+        marginTop: 25,
+        marginBottom: 80,
         shadowColor: theme.colors.text_dark,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
