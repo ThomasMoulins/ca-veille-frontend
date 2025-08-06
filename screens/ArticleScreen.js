@@ -13,6 +13,7 @@ import { useRoute } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import truncate from "../utils/truncate";
 import { getDomain } from "../utils/getDomain";
+import { checkSVG } from "../utils/checkSVG";
 
 export default function ArticleScreen() {
     const route = useRoute();
@@ -33,47 +34,51 @@ export default function ArticleScreen() {
 
     const truncatedCategoryName = truncate(sectionName, 40);
     const domain = getDomain(url);
+    const uri = checkSVG(media) ? defaultMedia : media;
+
     return (
         <View style={styles.container}>
             <Header articleId={articleId} />
             <ScrollView>
                 <View style={{ backgroundColor: theme.colors.bg_gray }}>
-                <View style={styles.card}>
-                    <View style={styles.topRow}>
-                        <Text
+                    <View style={styles.card}>
+                        <View style={styles.topRow}>
+                            <Text
                                 style={[
                                     styles.category,
                                     { color: categoryColor },
                                 ]}
-                        >
-                            {truncatedCategoryName}
-                        </Text>
-                        <TouchableOpacity
-                            style={styles.linkBtn}
-                            onPress={() => {
-                                Linking.openURL(url);
-                            }}
-                        >
-                            <Text
-                                style={[
-                                    styles.textLink,
-                                    { color: categoryColor },
-                                ]}
                             >
-                                    {domain}
+                                {truncatedCategoryName}
                             </Text>
+                            <TouchableOpacity
+                                style={styles.linkBtn}
+                                onPress={() => {
+                                    Linking.openURL(url);
+                                }}
+                            >
+                                <Text
+                                    style={[
+                                        styles.textLink,
+                                        { color: categoryColor },
+                                    ]}
+                                >
+                                    {domain}
+                                </Text>
                                 <Feather
                                     name="external-link"
-                                size={24}
-                                color={categoryColor}
+                                    size={24}
+                                    color={categoryColor}
                                     style={{ marginTop: -2 }}
-                            />
-                        </TouchableOpacity>
-                    </View>
+                                />
+                            </TouchableOpacity>
+                        </View>
 
-                        {(media || defaultMedia) && (
+                        {uri && (
                             <Image
-                                source={{ uri: media || defaultMedia }}
+                                source={{
+                                    uri: uri,
+                                }}
                                 style={{
                                     ...styles.image,
                                     resizeMode: media ? "cover" : "contain",
@@ -93,11 +98,11 @@ export default function ArticleScreen() {
                         <Text style={styles.articleTitle}>{title}</Text>
                         <Text style={styles.articleDesc}>{description}</Text>
                         <Text style={styles.date}>auteur : {author}</Text>
-                </View>
-                {/* <TouchableOpacity style={styles.similar}>
+                    </View>
+                    {/* <TouchableOpacity style={styles.similar}>
                 <Text style={styles.similarText}>Voir des articles similaires</Text>
-            </TouchableOpacity>  A voir à la fin si on laisse */}
-            </View>
+                </TouchableOpacity>  A voir à la fin si on laisse */}
+                </View>
             </ScrollView>
         </View>
     );
