@@ -10,8 +10,9 @@ import {
 import theme from "../core/theme";
 import Header from "../components/Header";
 import { useRoute } from "@react-navigation/native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import truncate from "../utils/truncate";
+import { getDomain } from "../utils/getDomain";
 
 export default function ArticleScreen() {
     const route = useRoute();
@@ -31,6 +32,7 @@ export default function ArticleScreen() {
     // const isFavorite = value.isFavorite || false;
 
     const truncatedCategoryName = truncate(sectionName, 40);
+    const domain = getDomain(url);
     return (
         <View style={styles.container}>
             <Header articleId={articleId} />
@@ -59,12 +61,13 @@ export default function ArticleScreen() {
                                     { color: categoryColor },
                                 ]}
                             >
-                                Lien vers l'article
+                                    {domain}
                             </Text>
-                            <FontAwesome5
-                                name="link"
+                                <Feather
+                                    name="external-link"
                                 size={24}
                                 color={categoryColor}
+                                    style={{ marginTop: -2 }}
                             />
                         </TouchableOpacity>
                     </View>
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     textLink: {
-        marginRight: 8,
+        marginRight: 2,
         fontFamily: theme.fonts.openSansRegular,
         fontSize: theme.fontSizes.medium,
         color: theme.colors.text_dark,
