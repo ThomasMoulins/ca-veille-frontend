@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import { logout } from "../reducers/user";
 import {
     getRefreshToken,
@@ -14,7 +13,6 @@ const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 export default function useAxiosInterceptor() {
     const dispatch = useDispatch();
-    const navigation = useNavigation();
 
     useEffect(() => {
         const interceptor = axios.interceptors.response.use(
@@ -51,5 +49,5 @@ export default function useAxiosInterceptor() {
             }
         );
         return () => axios.interceptors.response.eject(interceptor);
-    }, [dispatch, navigation]);
+    }, [dispatch]);
 }
